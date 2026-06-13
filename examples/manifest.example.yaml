@@ -1,0 +1,25 @@
+# Example servo manifest. Copy to `.servo/manifest.yaml` in your project and edit.
+#
+# It declares two things:
+#   - experts : the domains in your project, and where each one's knowledge lives.
+#   - oracles : the named sources of ground truth a gate can check against.
+#
+# servo reads this file; it does not parse it through any library. Keep it simple.
+
+experts:
+  frontend:
+    sources: ["src/components", "docs/design.md"]
+    ownsCheck: ["ui", "accessibility"]
+  backend:
+    sources: ["src/api", "docs/architecture.md"]
+    ownsCheck: ["contracts", "auth"]
+  data:
+    sources: ["src/db", "docs/schema.md"]
+    ownsCheck: ["migrations", "queries"]
+
+oracles:
+  invariants: "docs/invariants.md"        # what must never break
+  scope: "issue:{id}"                       # what the current work is (and isn't)
+  prior-art: "git:main"                     # what already exists / was decided
+  acceptance: "issue:{id}.criteria"         # done = this
+  footguns: "docs/footguns.md"              # known traps

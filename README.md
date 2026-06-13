@@ -18,7 +18,7 @@ Ground every step in truth. Close the loop. Ship plans that run anywhere.
 
 ## Quickstart
 
-> servo is in **alpha**. P1 ships the engine (a bundled TypeScript library). The installable skill and gate surface lands in P2 — the block below is the target install shape.
+> servo is in **alpha**. The gate (`/servo-gate`) and the manifest format are in place; the rest of the flow lands next. The block below installs it once published.
 
 ### Claude Code
 
@@ -39,15 +39,14 @@ Re-running the same model on the same context is the agent grading its own homew
 
 ## What's inside
 
-P1 (the foundation, shipped):
+Shipped:
 
 | Piece | What it does |
 |---|---|
-| **oracle manifest** | declares where your ground truth lives and which expert owns each kind of check |
-| **non-colluding perspective** | the verification primitive — a reviewer that judges an artifact only against a named oracle |
-| **verifier-model selection** | runs the verifier on the most distant model available, to cut shared bias |
+| **`/servo-gate`** + the `servo-gate` skill | verify a spec / plan / diff against a named oracle, with a reviewer that did not produce it → `GO` / `FIX` / `STOP` |
+| **the manifest** | one `.servo/manifest.yaml` per project, declaring oracles and experts — see [docs/manifest.md](docs/manifest.md) |
 
-Wired into the runtime as skills, commands and hooks in later slices — see [Roadmap](#roadmap).
+The rest of the flow (ground, diverge, scope-diff, scanner) lands next — see [Roadmap](#roadmap).
 
 ## How it works
 
@@ -77,29 +76,23 @@ init → ground → diverge → spec  ⟂gate→  plan  ⟂gate→  execute  ⟂
 
 Plans are the hardest artifact in the chain: closed (zero open decisions), pinned to a machine-checkable acceptance oracle, and written for the weakest executor you intend to run them on — so the same plan, run in another conversation or on a smaller model, produces the same result.
 
-**Plugin layout** (target):
+**Plugin layout:**
 
 ```
 servo/
-├── .claude-plugin/
-│   ├── plugin.json
-│   └── marketplace.json
-├── skills/          # P2+  the phases and gates
-├── commands/        # P2+  /servo-init, /servo-gate
-├── hooks/           # P2+  gate enforcement at phase boundaries
-└── src/  →  dist/   # P1   the engine, bundled with zero runtime deps
+├── .claude-plugin/{plugin.json, marketplace.json}
+├── skills/        # the phases and gates — markdown, this is the core
+├── commands/      # /servo-gate, …
+├── hooks/         # bash enforcement at phase boundaries
+├── scripts/       # Python stdlib, only where a step is genuinely mechanical
+└── examples/ · docs/
 ```
+
+No build step, nothing to install. Skills are prompts; the few scripts are Python standard library.
 
 ## Develop
 
-Requires Node ≥ 20.
-
-```bash
-npm install
-npm test          # vitest
-npm run typecheck # tsc --noEmit
-npm run build     # tsup → dist/index.js (deps inlined)
-```
+servo is markdown-first: skills and commands are prose, the manifest is YAML, enforcement hooks are bash, and the few mechanical scripts are Python standard library. There is nothing to build or install — edit a skill, reload the plugin, done.
 
 ## Contributing
 
@@ -113,12 +106,12 @@ MIT License — see [LICENSE](LICENSE) for details. © t1djani
 
 ## Roadmap
 
-- [x] **P1 — Foundation** · manifest schema + parser, verifier-model selection, the non-colluding perspective primitive. Bundled to a standalone `dist` with zero runtime dependencies.
-- [ ] **P2 — Gates** · spec-gate / plan-gate wired to the runtime, anti-theater check, differential plan validation.
-- [ ] **P3 — Backtest harness** · replay against a finished feature, blind to the answer.
-- [ ] **P4 — Full flow** · ground, diverge panel, scope-diff, conservation.
-- [ ] **P5 — Auto-scanner** · onboarding that discovers the manifest for any project.
-- [ ] **P6 — Council** · the diverge composition, shipped standalone.
+- [x] **Foundation** · the `servo-gate` skill + `/servo-gate` command + the manifest format. The non-colluding verifier prompt is validated against a real feature.
+- [ ] **Flow phases** · ground, diverge (expert panel), spec/plan gates, scope-diff, conservation — all skills.
+- [ ] **Backtest harness** · replay against a finished feature, blind to the answer (Python).
+- [ ] **Auto-scanner** · discover the manifest for any project (Python).
+- [ ] **Differential plan validation** · run a plan through N executors, diff their behavior to find under-specification.
+- [ ] **Council** · the diverge composition, shipped standalone.
 
 ## Brand assets
 

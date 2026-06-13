@@ -1,6 +1,5 @@
-node_modules/
-dist/
 *.log
-spike/
 .idea/
 .DS_Store
+__pycache__/
+*.pyc
