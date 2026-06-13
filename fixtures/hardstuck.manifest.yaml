@@ -1,0 +1,25 @@
+# Manifest Hard Stuck — fait main (ground truth pour valider le scanner P5).
+# NB : les clés et valeurs d'oracle (ex. "prior-art", "no-shame", "n+1") portent
+# tirets/symboles ; le scanner P5 devra reproduire exactement cette convention.
+experts:
+  design:
+    sources: ["nexus/web/src/styles", "vault:design-socle", "skill:hs-design"]
+    ownsCheck: ["ui", "palette", "tokens"]
+  perf:
+    sources: ["vault:web-production", "skill:hs-perf-frontend", "skill:hs-perf-backend"]
+    ownsCheck: ["ttfb", "cwv", "n+1", "index"]
+  gating:
+    sources: ["vault:web-production", "skill:hs-gating"]
+    ownsCheck: ["no-shame", "public-vs-owner"]
+  ingest:
+    sources: ["skill:hs-ingest"]
+    ownsCheck: ["riot-api", "cache-first", "puuid"]
+  data:
+    sources: ["oracle/src", "vault:oracle-data-engine", "skill:hs-oracle"]
+    ownsCheck: ["silver", "gold", "identity-puuid"]
+oracles:
+  invariants: "vault/hard-stuck/memory/*"
+  scope: "linear:HAR-{n}"
+  prior-art: "git:main + docs/superpowers/specs/"
+  acceptance: "linear:HAR-{n}.criteria"
+  footguns: "vault/hard-stuck/memory (tag footgun)"
