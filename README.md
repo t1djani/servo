@@ -43,10 +43,11 @@ Shipped:
 
 | Piece | What it does |
 |---|---|
-| **`/servo-gate`** + the `servo-gate` skill | verify a spec / plan / diff against a named oracle, with a reviewer that did not produce it → `GO` / `FIX` / `STOP` |
+| **`servo-gate`** | verify a spec / plan / diff against a named oracle, with a reviewer that did not produce it → `GO` / `FIX` / `STOP` |
+| **the flow** | `servo-flow` routes the phases: `scan-project` → `gather-context` → `expert-panel` → `shape-spec` → `seal-plan` → `scope-watch` → `close-the-books`, each a skill |
 | **the manifest** | one `.servo/manifest.yaml` per project, declaring oracles and experts — see [docs/manifest.md](docs/manifest.md) |
 
-The rest of the flow (ground, diverge, scope-diff, scanner) lands next — see [Roadmap](#roadmap).
+What is not built yet (the heavier, code-bearing parts) is on the [Roadmap](#roadmap).
 
 ## How it works
 
@@ -107,7 +108,7 @@ MIT License — see [LICENSE](LICENSE) for details. © t1djani
 ## Roadmap
 
 - [x] **Foundation** · the `servo-gate` skill + `/servo-gate` command + the manifest format. The non-colluding verifier prompt is validated against a real feature.
-- [ ] **Flow phases** · ground, diverge (expert panel), spec/plan gates, scope-diff, conservation — all skills.
+- [x] **Flow phases** · scan, ground, diverge (expert panel), spec/plan, scope-watch, conservation — all skills.
 - [ ] **Backtest harness** · replay against a finished feature, blind to the answer (Python).
 - [ ] **Auto-scanner** · discover the manifest for any project (Python).
 - [ ] **Differential plan validation** · run a plan through N executors, diff their behavior to find under-specification.
