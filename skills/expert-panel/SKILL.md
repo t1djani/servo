@@ -1,0 +1,27 @@
+---
+name: expert-panel
+description: For a decision with no ground truth yet (a real design fork), convene the relevant domain experts plus a mandated dissenter, weigh the options, and let the human decide. Use instead of deciding alone or asking the human one question at a time.
+---
+
+# expert-panel
+
+A good brainstorm is several experts, each master of a domain, who bring their knowledge and argue toward a decision. Use this when a choice has **no ground truth to check against yet** — a design fork, an architecture call, a tradeoff. For anything that can be checked against an oracle, use `servo-gate` instead; this skill is for generating and stress-testing options, not verifying them.
+
+The failure this prevents: one model picking the first plausible option with false confidence, and a panel of same-context models agreeing with each other.
+
+## Procedure
+
+1. **Frame the fork.** State the decision and the constraints from the context brief (`gather-context`). If there is genuinely an oracle that settles it, stop — this is a gate, not a panel.
+
+2. **Convene the experts.** From the manifest's `experts`, pick the ones whose domain the decision touches (a UI fork wakes the design expert; a data fork wakes the data expert). Spawn each as a subagent that **reads its own sources first** (the expert's `sources`) and then argues from its domain. Each expert is a real, separate perspective — not you role-playing all of them.
+
+3. **Seat the mandated dissenter.** Spawn one more perspective whose assigned job is to **disagree with the emerging consensus** — by duty, not by opinion (the "tenth man"). If everyone is converging, it must surface the strongest case against. Keep its dissent on the record even if overruled.
+
+4. **Place the human.** The human is the CEO/client seat: they carry the intent and make the call. If they also hold a domain, their input is an expert contribution — and gets challenged like any other, not executed blindly.
+
+5. **Synthesize, do not average.** Present the options scored, with the dissent kept visible. Recommend, but do not collapse to a forced consensus. Propose the open choices to the human in one batch, pre-filled.
+
+## Rules
+
+- Experts must not collude: each sees its own slice and stance, not the others' reasoning, until synthesis.
+- The dissenter is structural. A panel with no dissent is the groupthink this skill exists to break.
