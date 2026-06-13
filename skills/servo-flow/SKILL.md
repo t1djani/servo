@@ -29,6 +29,15 @@ scan-project → gather-context → expert-panel → shape-spec ⟂gate→ seal-
 
 - **Verification only counts if it injects ground truth the producer did not have.** Every gate names an oracle. A check that re-reads the artifact with the same context that wrote it is theater. Skip it.
 
+## Depth — choose how much rigor to spend
+
+The fan-out (panels, gates, multiple verifiers) is where the cost is. Pick a depth up front and tell the phases:
+
+- **`quick` (default for most work):** the minimal relevant experts (2-3) on a cheap model, fed the context brief; gates run a **single** oracle-grounded verifier; reason inline rather than spawning when a fork is low-stakes. This is the everyday setting.
+- **`thorough` (high-stakes only):** widen the panel, run a multi-verifier gate, use the strong model for synthesis and final verification. Reserve for the irreversible, the security-sensitive, the expensive-to-reverse.
+
+A project can set its default depth in the manifest; a task can override it ("this one's high-stakes, go thorough"). When unsure, start `quick` — a single oracle-grounded gate already catches most stale-premise and scope problems. Escalate only when being wrong is expensive.
+
 ## Skip what does not apply
 
 Small, well-scoped work does not need the whole loop. A one-line fix needs `servo-gate` against `scope` at most. Reach for `expert-panel` only when there is a genuine fork. The loop scales down; do not run ceremony for its own sake.

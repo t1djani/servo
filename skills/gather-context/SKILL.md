@@ -19,7 +19,7 @@ The failure this prevents: an agent re-deriving facts that already exist (in the
 
 4. **Confirm in one batch — not one question at a time.** Where the brief has gaps or assumptions, ask the human all the open questions at once, with proposed answers pre-filled from the context. The human is the CEO/client seat here: they own the intent. Their answers are input to pressure-test, not orders to execute blindly.
 
-5. **Carry the brief forward.** The brief feeds the next phase. At the next boundary, re-run this skill on the slice that now matters.
+5. **Carry the brief forward — it is the cache.** The brief is read ONCE here and then **consumed by the downstream phases** (the expert panel, the gates). Hand subagents the brief instead of having each one re-read the raw oracles; a subagent only goes back to a raw source when it genuinely needs to go deeper than the brief. Reading the same vault notes and specs eleven times, once per subagent, is the main avoidable cost in the flow. At the next phase boundary, re-run this skill on the slice that now matters.
 
 ## Rule
 

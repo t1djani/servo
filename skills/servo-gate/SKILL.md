@@ -47,10 +47,10 @@ The rule underneath: a check is only worth running if it brings in information t
 
 ## Tiering — keep it cheap (§7e)
 
-- **Default: one verifier** (steps 5–6 once). Most gates are low-stakes.
+- **Default: ONE verifier** (steps 5–6 once), ideally on a cheaper model than the producer (§7d gives you the independence; you do not need the strongest model to check against a named oracle). Most gates are low-stakes.
 - **Escalate to a panel** of 3 verifiers (steps 5–6 three times) only when the artifact is high-stakes: irreversible, security-sensitive, a production migration, or the human flagged it. Keep any dissenting finding; take **STOP** if a majority stops.
 
-Do not panel by default. A panel on a low-stakes gate is the ceremony this skill exists to avoid.
+Do not panel by default. And do not reach for a **heavy multi-reviewer review** (a 4-5 agent panel-with-critic) as your everyday gate — that is a high-stakes tool. A single oracle-grounded verifier already catches most stale-premise and scope problems; spend the panel only where being wrong is expensive. A panel on a low-stakes gate is the ceremony this skill exists to avoid.
 
 ## Rules
 

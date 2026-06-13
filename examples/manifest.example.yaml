@@ -6,6 +6,9 @@
 #
 # servo reads this file; it does not parse it through any library. Keep it simple.
 
+defaults:
+  depth: quick   # quick | thorough — how much rigor the flow spends by default (see docs/manifest.md)
+
 experts:
   frontend:
     sources: ["src/components", "docs/design.md"]

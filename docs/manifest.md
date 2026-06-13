@@ -43,6 +43,20 @@ The source string tells the agent *where* to read. servo does not hard-code thes
 
 Use whatever forms your project actually has. The only contract is: the agent must be able to read the source and get real ground truth, or the gate stops.
 
+## `defaults`
+
+Optional. Sets how much rigor the flow spends by default, so you do not pay panel-and-multi-verifier cost on routine work.
+
+```yaml
+defaults:
+  depth: quick   # quick | thorough
+```
+
+- `quick` (recommended default): minimal experts (2-3) on a cheap model, single oracle-grounded gates, inline reasoning for low-stakes forks.
+- `thorough`: wider panels, multi-verifier gates, the strong model for synthesis — reserved for irreversible or high-stakes work.
+
+A task can override the default ("this one is high-stakes, go thorough"). When unset, the flow behaves as `quick`.
+
 ## Freshness
 
 A spec should point at a *live* oracle (read fresh each time). A plan, which must reproduce identically anywhere, should **snapshot** the volatile part of its acceptance oracle into the plan itself. Same idea, opposite default: the spec wants freshness, the plan wants determinism.
