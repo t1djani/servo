@@ -1,0 +1,14 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "servo",
+  "description": "Process discipline built for AI agents: ground-truth oracles, non-colluding gates, deterministic plans.",
+  "owner": { "name": "t1djani" },
+  "plugins": [
+    {
+      "name": "servo",
+      "source": ".",
+      "description": "Ground every step in truth, close the loop, ship plans that run anywhere.",
+      "category": "workflow"
+    }
+  ]
+}
