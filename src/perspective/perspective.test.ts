@@ -46,4 +46,12 @@ describe("runPerspective", () => {
     expect(v.verdict).toBe("FIX");
     expect(v.findings[0]).toMatch(/verdict invalide/);
   });
+
+  it("dégrade en FIX sur un JSON valide mais non-objet (null, nombre, tableau)", async () => {
+    for (const raw of ["null", "42", "[1,2]"]) {
+      const v = await runPerspective(baseInput, vi.fn(async () => raw));
+      expect(v.verdict).toBe("FIX");
+      expect(v.findings[0]).toMatch(/non-object/);
+    }
+  });
 });

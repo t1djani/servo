@@ -38,15 +38,20 @@ export function buildPrompt(input: PerspectiveInput): string {
 
 export async function runPerspective(input: PerspectiveInput, dispatch: Dispatch): Promise<Verdict> {
   const raw = await dispatch(input.model.verifier, buildPrompt(input));
+  // Type d'entrée laxiste : le JSON du vérificateur n'est pas garanti conforme.
+  let parsed: { verdict?: unknown; findings?: unknown };
   try {
-    // Type d'entrée laxiste : le JSON du vérificateur n'est pas garanti conforme.
-    const parsed = JSON.parse(raw) as { verdict?: unknown; findings?: unknown };
-    if (parsed.verdict !== "GO" && parsed.verdict !== "FIX" && parsed.verdict !== "STOP") {
-      return { verdict: "FIX", findings: [`verdict invalide: ${String(parsed.verdict)}`] };
-    }
-    const findings = Array.isArray(parsed.findings) ? parsed.findings.map(String) : [];
-    return { verdict: parsed.verdict, findings };
+    parsed = JSON.parse(raw) as { verdict?: unknown; findings?: unknown };
   } catch {
     return { verdict: "FIX", findings: [`verifier returned non-JSON: ${raw.slice(0, 200)}`] };
   }
+  // JSON valide mais non-objet (null, nombre, tableau) : libellé distinct du « non-JSON ».
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+    return { verdict: "FIX", findings: [`verifier returned non-object JSON: ${raw.slice(0, 200)}`] };
+  }
+  if (parsed.verdict !== "GO" && parsed.verdict !== "FIX" && parsed.verdict !== "STOP") {
+    return { verdict: "FIX", findings: [`verdict invalide: ${String(parsed.verdict)}`] };
+  }
+  const findings = Array.isArray(parsed.findings) ? parsed.findings.map(String) : [];
+  return { verdict: parsed.verdict, findings };
 }
