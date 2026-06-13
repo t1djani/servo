@@ -3,7 +3,7 @@
   "name": "servo",
   "displayName": "Servo",
   "description": "Process AI-first: ground-truth oracles, non-colluding gates, deterministic plans.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": { "name": "t1djani" },
   "homepage": "https://github.com/t1djani/servo",
   "repository": "https://github.com/t1djani/servo",
