@@ -29,6 +29,10 @@ scan-project → gather-context → expert-panel → shape-spec ⟂gate→ seal-
 
 - **Verification only counts if it injects ground truth the producer did not have.** Every gate names an oracle. A check that re-reads the artifact with the same context that wrote it is theater. Skip it.
 
+## Show the work — keep a live checklist
+
+The phases are only damping if the human can *see* them happen. At the start of a servo run, open a **TodoWrite checklist with one item per phase** you intend to run (skip the ones that don't apply), and walk it: mark a phase `in_progress` when you enter it, `completed` when its gate passes. When a phase fans out, expand it into sub-items — **one todo per expert** in `expert-panel`, **one todo per task** when executing a sealed plan, one per verifier in a multi-gate. The checklist is the visible spine of the run; never do a multi-phase servo run as a silent block of work.
+
 ## Depth — choose how much rigor to spend
 
 The fan-out (panels, gates, multiple verifiers) is where the cost is. Pick a depth up front and tell the phases:

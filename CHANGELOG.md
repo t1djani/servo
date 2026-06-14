@@ -2,6 +2,11 @@
 
 All notable changes to servo are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/), and versions follow [SemVer](https://semver.org/).
 
+## [0.2.0] — 2026-06-14
+
+### Added
+- **Live progress checklists.** `servo-flow` now drives a TodoWrite checklist (one item per phase, expanded per expert / per task when a phase fans out); `expert-panel` shows one todo per expert, and `seal-plan` walks the plan as a per-task checklist at execution. A multi-phase run is never a silent block — the human watches it burn down.
+
 ## [0.1.0] — 2026-06-13
 
 First public alpha.

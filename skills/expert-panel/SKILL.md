@@ -9,6 +9,8 @@ A good brainstorm is several experts, each master of a domain, who bring their k
 
 The failure this prevents: one model picking the first plausible option with false confidence, and a panel of same-context models agreeing with each other.
 
+Keep it visible: open a **TodoWrite list with one todo per expert** (plus the dissenter and the synthesis), and mark each `in_progress`/`completed` as it reports. The human should see the panel convene and resolve, not wait on a silent block.
+
 ## Procedure
 
 1. **Frame the fork.** State the decision and the constraints from the context brief (`gather-context`). If there is genuinely an oracle that settles it, stop — this is a gate, not a panel.

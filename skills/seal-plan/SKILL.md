@@ -22,6 +22,10 @@ A plan is the hardest artifact in the flow. Its whole job is to be **portable an
 3. Snapshot the acceptance criteria into the plan.
 4. **Gate the plan.** Run `servo-gate` against `spec` (does the plan cover it, no creep?) and against the plan's own closedness (any open decision, placeholder, or unreachable acceptance check is a `STOP`). Fix before executing.
 
+## Executing the plan — walk it as a checklist
+
+A sealed plan is a checklist by construction. When you execute it, open a **TodoWrite list with one todo per task** and walk it in order: mark the task `in_progress` at its failing test, `completed` at its commit. The human watches the plan burn down in real time — execution is never a silent block.
+
 ## Note
 
 Running the plan through two independent executors and diffing their behavior — to *measure* under-specification instead of guessing at it — is the strongest gate a plan can get. That differential check is a later phase; for now, the gate above is a strong floor.
